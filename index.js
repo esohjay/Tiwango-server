@@ -28,10 +28,10 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "https://tiwango.netlify.app",
   })
 );
-//"http://localhost:3000","https://agritalk.netlify.app"
+//"http://localhost:3000","https://tiwango.netlify.app"
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
