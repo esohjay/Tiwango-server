@@ -3,7 +3,7 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const ExpressError = require("./utils/ExpressError");
-const MongoStore = require("connect-mongo");
+//const MongoStore = require("connect-mongo");
 const path = require("path");
 const cors = require("cors");
 dotenv.config();
@@ -35,29 +35,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-const secret = process.env.SECRET || "coded";
-const store = MongoStore.create({
-  mongoUrl: dbUrl,
-  secret,
-  touchAfter: 24 * 60 * 60,
-});
-store.on("error", function (e) {
-  console.log("session error", e);
-});
-const sessionConfig = {
-  store,
-  name: "agritalk",
-  secret,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    //secure: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-};
-app.use(session(sessionConfig));
 
 app.get("/", (req, res) => {
   res.send("homepage");
