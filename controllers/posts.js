@@ -14,7 +14,12 @@ module.exports.createPost = async (req, res) => {
 
   //make tags an array separated by quotes
   const postTags = tags.split(" ");
-
+  const postTagsFiltered = [];
+  for (let tag of postTags) {
+    if (tag.length > 0) {
+      postTagsFiltered.push(tag);
+    }
+  }
   //create post
   const post = new Post({
     title,
@@ -24,7 +29,7 @@ module.exports.createPost = async (req, res) => {
     image,
     postImages,
     description,
-    tags: postTags,
+    tags: postTagsFiltered,
   });
   // postImages.map((image) => post.postImages.push(image));
   post.author = req.user;
@@ -145,12 +150,20 @@ module.exports.editPost = async (req, res) => {
   // check if user sends more post tags, split it into array and push into existing tags
   if (newTags) {
     const postTags = newTags.split(" ");
-    postTags.map((tag) => wantedTags.push(tag));
+    postTags.map((tag) => {
+      wantedTags.push(tag);
+    });
   }
+  const filteredTags = [];
+  wantedTags.map((tag) => {
+    if (tag.length > 0) {
+      filteredTags.push(tag);
+    }
+  });
 
   const post = await Post.findByIdAndUpdate(id, {
     title,
-    tags: wantedTags,
+    tags: filteredTags,
     category,
     image,
     postImages,
