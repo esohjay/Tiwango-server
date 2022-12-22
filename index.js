@@ -28,7 +28,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://tiwango.netlify.app",
+    origin: process.env.FRONTEND_URL,
   })
 );
 //"http://localhost:3000","https://tiwango.netlify.app"
